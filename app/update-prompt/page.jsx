@@ -6,15 +6,11 @@ import Form from "@components/Form";
 
 const UpdatePrompt = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const promptId = searchParams.get("id");
+
   const [post, setPost] = useState({ prompt: "", tag: "" });
   const [submitting, setIsSubmitting] = useState(false);
-
-  const handleSearchParams = () => {
-    const searchParams = useSearchParams();
-    return searchParams?.get("id");
-  };
-
-  const promptId = handleSearchParams();
 
   useEffect(() => {
     const getPromptDetails = async () => {
