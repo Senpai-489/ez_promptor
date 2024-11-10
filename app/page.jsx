@@ -9,6 +9,8 @@ const Home = () => {
         <span className="orange_gradient text-center">AI Prompts</span>
         </h1>
         <p className="desc text-center"> <strong>EZ Promptor</strong> is an open source AI-Prompt tool for folks to discover, create and share cool and creative AI prompts</p>
+        
+          
         <Feed/>
       </section>
     )

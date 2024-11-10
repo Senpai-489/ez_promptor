@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-
+import Link from "next/link";
 import PromptCard from "./PromptCard";
 
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
-    <div className='mt-16 prompt_layout'>
+    <div className='mt-10 prompt_layout'>
       {data.map((post) => (
         <PromptCard
           key={post._id}
@@ -79,7 +79,9 @@ const Feed = () => {
           className='search_input peer'
         />
       </form>
-
+      <Link href='/create-prompt' className='outline_btn mt-10'>
+              Go Ahead! Create a Prompt
+            </Link>
       {/* All Prompts */}
       {searchText ? (
         <PromptCardList
