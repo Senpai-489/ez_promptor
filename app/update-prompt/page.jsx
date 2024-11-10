@@ -1,13 +1,11 @@
 "use client";
 
 import React, { useEffect, useState, Suspense } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Form from "@components/Form";
 
-const UpdatePrompt = () => {
+const UpdatePrompt = ({ promptId }) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const promptId = searchParams?.get("id");
 
   const [post, setPost] = useState({ prompt: "", tag: "" });
   const [submitting, setIsSubmitting] = useState(false);
@@ -30,8 +28,8 @@ const UpdatePrompt = () => {
         const data = await response.json();
 
         setPost({
-          prompt: data.prompt || "", // Default to empty string if missing
-          tag: data.tag || "",       // Default to empty string if missing
+          prompt: data.prompt || "",
+          tag: data.tag || "",
         });
       } catch (err) {
         setError(err.message);
@@ -74,11 +72,11 @@ const UpdatePrompt = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>; // Loading state
-  if (error) return <div>Error: {error}</div>; // Error state
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading form...</div>}>
       <Form
         type="Edit"
         post={post}
