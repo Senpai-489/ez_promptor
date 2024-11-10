@@ -5,7 +5,8 @@ import Provider from '@components/Provider'
 
 export const metadata = {
     title :"EZ Promptor",
-    description : "Ready to go AI prompt for everyone"
+    description : "Ready to go AI prompts for everyone"
+    
 }
 const RootLayout = ({children }) => {
   return (
