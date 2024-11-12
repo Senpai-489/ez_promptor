@@ -1,55 +1,37 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+
 import Form from "@components/Form";
 
-const UpdatePrompt = ({ promptId }) => {
+const UpdatePrompt = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const promptId = searchParams.get("id");
 
-  const [post, setPost] = useState({ prompt: "", tag: "" });
+  const [post, setPost] = useState({ prompt: "", tag: "", });
   const [submitting, setIsSubmitting] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const getPromptDetails = async () => {
-      if (!promptId) {
-        setError("Prompt ID is missing.");
-        setLoading(false);
-        return;
-      }
+      const response = await fetch(`/api/prompt/${promptId}`);
+      const data = await response.json();
 
-      try {
-        const response = await fetch(`/api/prompt/${promptId}`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch prompt data.");
-        }
-        const data = await response.json();
-
-        setPost({
-          prompt: data.prompt || "",
-          tag: data.tag || "",
-        });
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+      setPost({
+        prompt: data.prompt,
+        tag: data.tag,
+      });
     };
 
-    getPromptDetails();
+    if (promptId) getPromptDetails();
   }, [promptId]);
 
   const updatePrompt = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    if (!promptId) {
-      alert("Missing PromptId!");
-      setIsSubmitting(false);
-      return;
-    }
+    if (!promptId) return alert("Missing PromptId!");
 
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
@@ -62,29 +44,22 @@ const UpdatePrompt = ({ promptId }) => {
 
       if (response.ok) {
         router.push("/");
-      } else {
-        throw new Error("Failed to update prompt.");
       }
     } catch (error) {
-      console.error(error);
+      console.log(error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
-
   return (
-    <Suspense fallback={<div>Loading form...</div>}>
-      <Form
-        type="Edit"
-        post={post}
-        setPost={(newPost) => setPost({ ...post, ...newPost })}
-        submitting={submitting}
-        handleSubmit={updatePrompt}
-      />
-    </Suspense>
+    <Form
+      type='Edit'
+      post={post}
+      setPost={setPost}
+      submitting={submitting}
+      handleSubmit={updatePrompt}
+    />
   );
 };
 
