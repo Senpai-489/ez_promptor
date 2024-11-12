@@ -37,14 +37,16 @@ const CreatePrompt = () => {
     }
   };
 
-  return (
+  return ( session?.user ?
     <Form
       type='Create'
       post={post}
       setPost={setPost}
       submitting={submitting}
       handleSubmit={createPrompt}
-    />
+    /> :<div className="font-bold orange_gradient text-[4rem] drop-shadow-lg mt-24">
+      Sign in First Please!
+    </div>
   );
 };
 

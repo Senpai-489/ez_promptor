@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import PromptCard from "./PromptCard";
-
+import { useSession } from "next-auth/react";
 const PromptCardList = ({ data, handleTagClick }) => {
   return (
     <div className='mt-10 prompt_layout'>
@@ -66,7 +66,7 @@ const Feed = () => {
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
-
+  const { data: session } = useSession();
   return (
     <section className='feed'>
       <form className='relative w-full flex-center'>
@@ -79,9 +79,10 @@ const Feed = () => {
           className='search_input peer'
         />
       </form>
+      {session?.user ?
       <Link href='/create-prompt' className='outline_btn mt-10'>
               Go Ahead! Create a Prompt
-            </Link>
+            </Link>:<></>}
       {/* All Prompts */}
       {searchText ? (
         <PromptCardList
