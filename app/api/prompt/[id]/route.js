@@ -1,5 +1,6 @@
 import Prompt from "@models/prompt";
 import { connectToDB } from "@utils/database";
+import mongoose from "mongoose";
 
 export const GET = async (request, { params }) => {
     try {
@@ -43,9 +44,8 @@ export const PATCH = async (request, { params }) => {
 export const DELETE = async (request, { params }) => {
     try {
         await connectToDB();
-        await console.log(params.id+"hehe");
-        // Find the prompt by ID and remove it
-        // await Prompt.findByIdAndRemove(params.id);
+        console.log("inside del")
+        await Prompt.findByIdAndDelete(params.id);
 
         return new Response("Prompt deleted successfully", { status: 200 });
     } catch (error) {
