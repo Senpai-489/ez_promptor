@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import Image from "next/image";
 import { useSession } from "next-auth/react";
 import { usePathname, useRouter } from "next/navigation";
@@ -19,6 +20,9 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
     if (post.creator._id === session?.user.id) return router.push("/profile");
 
     router.push(`/profile/${post.creator._id}?name=${post.creator.username}`);
+  };
+  const handleTestAI = (post) => {
+    router.push(`/ai-chat?id=${post._id}`);
   };
 
   const handleCopy = () => {
@@ -90,6 +94,10 @@ const PromptCard = ({ post, handleEdit, handleDelete, handleTagClick }) => {
           </p>
         </div>
       )}
+      <Link 
+      className="outline_btn mt-2"
+      onClick={handleTestAI}
+      href="/ai-chat">Test Prompt with AI</Link>
     </div>
   );
 };
