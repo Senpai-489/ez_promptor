@@ -79,10 +79,14 @@ const Feed = () => {
           className='search_input peer'
         />
       </form>
+      <div className="flex gap-4">
       {session?.user ?
       <Link href='/create-prompt' className='outline_btn mt-10'>
               Go Ahead! Create a Prompt
             </Link>:<></>}
+            <Link href='/ai-chat' className='outline_btn mt-10'>
+              Talk to AI
+            </Link></div>
       {/* All Prompts */}
       {searchText ? (
         <PromptCardList
